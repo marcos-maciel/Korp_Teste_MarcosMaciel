@@ -34,6 +34,37 @@ app.MapGet("/api/inventory/products/{id:int}", (int id) =>
     return Results.Ok(product);
 });
 
+app.MapPost("/api/inventory/products", (ProductStockUpsertRequest request) =>
+{
+    if (request.Id <= 0)
+    {
+        return Results.BadRequest(new { message = "Produto inválido." });
+    }
+
+    if (request.Saldo < 0)
+    {
+        return Results.BadRequest(new { message = "Saldo inválido." });
+    }
+
+    var product = new ProductSummaryDto
+    {
+        Id = request.Id,
+        Codigo = request.Codigo,
+        Descricao = request.Descricao,
+        Saldo = request.Saldo
+    };
+
+    products[request.Id] = product;
+
+    return Results.Ok(new
+    {
+        success = true,
+        message = "Produto sincronizado no serviço de estoque.",
+        productId = request.Id,
+        availableQuantity = request.Saldo
+    });
+});
+
 app.MapPost("/api/inventory/stock/reserve", (ReserveStockRequest request) =>
 {
     if (request.ProductId <= 0)
@@ -69,6 +100,14 @@ app.MapPost("/api/inventory/stock/reserve", (ReserveStockRequest request) =>
 });
 
 app.Run();
+
+public record ProductStockUpsertRequest
+{
+    public int Id { get; init; }
+    public string Codigo { get; init; } = string.Empty;
+    public string Descricao { get; init; } = string.Empty;
+    public int Saldo { get; init; }
+}
 
 public record ReserveStockRequest
 {

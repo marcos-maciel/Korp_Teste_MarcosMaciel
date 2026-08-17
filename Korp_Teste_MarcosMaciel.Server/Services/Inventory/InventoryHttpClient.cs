@@ -32,6 +32,34 @@ public class InventoryHttpClient : IInventoryClient
         return product?.Saldo ?? 0;
     }
 
+    public async Task RegisterProductAsync(Product product, CancellationToken cancellationToken = default)
+    {
+        if (_configuration.GetValue<bool>("SimulateInventoryServiceFailure"))
+        {
+            throw new HttpRequestException("O serviço de estoque está temporariamente indisponível. Tente novamente em alguns instantes.");
+        }
+
+        if (product is null)
+        {
+            throw new InvalidOperationException("Produto inválido para sincronização de estoque.");
+        }
+
+        var payload = new
+        {
+            id = product.Id,
+            codigo = product.Codigo,
+            descricao = product.Descricao,
+            saldo = product.Saldo
+        };
+
+        var response = await _httpClient.PostAsJsonAsync("/api/inventory/products", payload, cancellationToken);
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync(cancellationToken);
+            throw new HttpRequestException($"O serviço de estoque está temporariamente indisponível. {error}");
+        }
+    }
+
     public async Task<bool> ReserveStockAsync(int productId, int quantity, CancellationToken cancellationToken = default)
     {
         if (_configuration.GetValue<bool>("SimulateInventoryServiceFailure"))

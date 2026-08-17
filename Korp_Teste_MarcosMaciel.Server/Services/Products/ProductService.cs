@@ -1,16 +1,19 @@
 using Korp_Teste_MarcosMaciel.Server.Data.Interfaces;
 using Korp_Teste_MarcosMaciel.Server.Exceptions;
 using Korp_Teste_MarcosMaciel.Server.Models;
+using Korp_Teste_MarcosMaciel.Server.Services.Inventory;
 
 namespace Korp_Teste_MarcosMaciel.Server.Services.Products;
 
 public class ProductService
 {
     private readonly IProductRepository _repository;
+    private readonly IInventoryClient _inventoryClient;
 
-    public ProductService(IProductRepository repository)
+    public ProductService(IProductRepository repository, IInventoryClient inventoryClient)
     {
         _repository = repository;
+        _inventoryClient = inventoryClient;
     }
 
     public async Task<List<Product>> GetAllAsync()
@@ -36,6 +39,8 @@ public class ProductService
         product.Descricao = product.Descricao.Trim();
         product.AtualizadoEm = DateTime.UtcNow;
 
-        return await _repository.AddAsync(product);
+        var created = await _repository.AddAsync(product);
+        await _inventoryClient.RegisterProductAsync(created);
+        return created;
     }
 }
