@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="korp_teste_marcosmaciel.client/korp_teste_marcosmaciel.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Korp_Teste_MarcosMaciel.Server/Korp_Teste_MarcosMaciel.Server.csproj" />
+</Solution>
