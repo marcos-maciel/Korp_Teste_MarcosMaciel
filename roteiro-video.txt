@@ -1,0 +1,101 @@
+Roteiro do vídeo da aplicação
+
+Objetivo
+Apresentar a aplicação funcionando, destacando:
+- frontend em Angular
+- backend em ASP.NET Core
+- microsserviços de estoque e faturamento
+- cadastro de produtos
+- emissão e impressão de notas fiscais
+- tratamento de falhas
+
+Formato sugerido
+- duração: 3 a 5 minutos
+- gravação em tela do desktop
+- narração em português
+- foco na funcionalidade e no fluxo de negócio
+
+Cena 1 – Abertura (0:00 a 0:20)
+Tela: abrir a aplicação na página inicial / página de produtos.
+
+Mensagem de abertura:
+"Olá! Neste vídeo vou apresentar a aplicação de gestão de produtos e notas fiscais desenvolvida em Angular + .NET, com microsserviços de estoque e faturamento."
+
+Ação:
+- mostrar menu com Produtos e Notas fiscais
+- demonstrar que a interface está pronta
+
+Cena 2 – Visão geral da arquitetura (0:20 a 0:50)
+Tela: mostrar a estrutura do sistema no código ou explicar em narração.
+
+Narração:
+"A aplicação é composta por um frontend em Angular, uma API principal em ASP.NET Core e dois microsserviços independentes: um responsável pelo controle de estoque e outro pelo status de faturamento."
+
+Ação:
+- destacar visualmente a divisão dos módulos
+- explicar que o frontend chama a API principal
+
+Cena 3 – Cadastro de produto (0:50 a 1:35)
+Tela: página de Produtos.
+
+Narração:
+"Na tela de produtos, o usuário pode cadastrar um novo item com código, descrição e saldo. Após salvar, a lista é atualizada sem a necessidade de refresh manual."
+
+Ação:
+- preencher código, descrição e saldo
+- clicar em "Salvar produto"
+- mostrar a nova linha aparecendo na tabela
+
+Cena 4 – Criação de nota fiscal (1:35 a 2:20)
+Tela: página de Notas fiscais.
+
+Narração:
+"Agora vamos criar uma nota fiscal. O usuário seleciona um produto, informa a quantidade e adiciona os itens. Depois disso, salva a nota e ela fica disponível para impressão."
+
+Ação:
+- escolher produto
+- inserir quantidade
+- clicar em "Adicionar item"
+- clicar em "Salvar nota fiscal"
+- mostrar a nota em status Aberta
+
+Cena 5 – Impressão e fechamento da nota (2:20 a 3:10)
+Tela: lista de notas fiscais.
+
+Narração:
+"Ao imprimir a nota, o sistema valida o estoque e o status de faturamento. Se tudo estiver correto, a nota é fechada e o estoque é atualizado."
+
+Ação:
+- clicar em "Imprimir nota"
+- mostrar a nota mudando de Aberta para Fechada
+- destacar o saldo ajustado
+
+Cena 6 – Tratamento de falha do microsserviço (3:10 a 4:05)
+Tela: simular indisponibilidade do microsserviço de estoque ou faturamento.
+
+Narração:
+"A aplicação também trata falhas de integração. Quando um microsserviço fica indisponível, o backend responde com uma mensagem amigável ao usuário, em vez de quebrar a operação ou deixar o sistema inconsistente."
+
+Ação:
+- mostrar a mensagem de erro na interface
+- explicar que a operação foi bloqueada de forma segura
+
+Cena 7 – Encerramento (4:05 a 4:30)
+Tela: retorno final do sistema.
+
+Narração:
+"Concluímos o fluxo completo: cadastro de produtos, emissão de notas fiscais, atualização de estoque e tratamento de falhas. O resultado é uma solução organizada, funcional e preparada para evoluir com regras de negócio cada vez mais complexas."
+
+Roteiro pronto para narração
+
+"Olá! Neste vídeo vou apresentar a aplicação de gestão de produtos e notas fiscais, desenvolvida com Angular no frontend e ASP.NET Core no backend. A solução também conta com dois microsserviços independentes: um para controle de estoque e outro para monitorar o status de faturamento.
+
+Na tela de produtos, o usuário pode cadastrar novos itens com código, descrição e saldo. Após salvar, a lista é atualizada automaticamente e o produto fica disponível para uso na emissão de notas.
+
+Na tela de notas fiscais, o usuário escolhe um produto, define a quantidade, adiciona itens e salva a nota. Em seguida, a nota fica em status Aberta e pode ser impressa.
+
+Ao clicar em imprimir, o backend valida se o produto tem saldo e se o faturamento está disponível. Se estiver tudo correto, a nota é fechada e o estoque é atualizado. Essa regra de negócio é crítica para manter a consistência da operação.
+
+Além disso, a aplicação trata falhas de integração com mensagens amigáveis. Se o microsserviço de estoque ou faturamento ficar indisponível, o sistema informa ao usuário sem quebrar o fluxo e sem gerar inconsistência no processo.
+
+Esse projeto demonstra uma arquitetura moderna, com frontend em Angular, API principal em .NET e microsserviços separados para responsabilidades bem definidas. O resultado é uma solução organizada, fácil de evoluir e adequada para testes de integração e validação do comportamento do negócio."

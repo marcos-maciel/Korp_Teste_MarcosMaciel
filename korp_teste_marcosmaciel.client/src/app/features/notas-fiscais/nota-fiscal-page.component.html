@@ -1,0 +1,92 @@
+<section class="nota-shell">
+  <div class="panel panel-form">
+    <h2>Nova nota fiscal</h2>
+
+    <div class="field">
+      <label for="produto">Produto</label>
+      <select id="produto" [(ngModel)]="selectedProductId" [disabled]="isLoadingProducts || products.length === 0">
+        <option value="">Selecione um produto</option>
+        <option *ngFor="let product of products" [value]="product.id">
+          {{ product.codigo }} - {{ product.descricao }} (saldo: {{ product.saldo }})
+        </option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="quantidade">Quantidade</label>
+      <input id="quantidade" type="number" min="1" [(ngModel)]="quantidade" />
+    </div>
+
+    <button type="button" class="secondary" (click)="addItem()" [disabled]="isLoadingProducts">
+      Adicionar item
+    </button>
+
+    <div class="itens-box" *ngIf="itens.length > 0; else semItens">
+      <h3>Itens da nota</h3>
+      <ul>
+        <li *ngFor="let item of itens">
+          <div>
+            <strong>{{ item.produto?.codigo }}</strong>
+            <span>{{ item.produto?.descricao }}</span>
+          </div>
+          <div class="quantidade-acoes">
+            <span>Qtd: {{ item.quantidade }}</span>
+            <button type="button" class="link-button" (click)="removeItem(item.produtoId)">Remover</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <ng-template #semItens>
+      <div class="state empty">Nenhum item adicionado.</div>
+    </ng-template>
+
+    <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+    <button type="button" class="primary" (click)="salvarNota()" [disabled]="isSaving || itens.length === 0">
+      {{ isSaving ? 'Salvando...' : 'Salvar nota fiscal' }}
+    </button>
+  </div>
+
+  <div class="panel panel-list">
+    <div class="section-header">
+      <h2>Notas fiscais</h2>
+    </div>
+
+    <div *ngIf="isLoadingNotas" class="state">Carregando notas...</div>
+    <div *ngIf="!isLoadingNotas && notas.length === 0" class="state empty">Nenhuma nota fiscal cadastrada.</div>
+
+    <div *ngIf="!isLoadingNotas && notas.length > 0" class="notas-list">
+      <article *ngFor="let nota of notas" class="nota-card" [class.closed]="nota.status === 'Fechada'">
+        <div class="nota-header">
+          <div>
+            <span class="nota-label">Nota</span>
+            <strong>#{{ nota.numero }}</strong>
+          </div>
+          <span class="status-badge" [class.status-open]="nota.status === 'Aberta'" [class.status-closed]="nota.status === 'Fechada'">
+            {{ nota.status }}
+          </span>
+        </div>
+
+        <div class="nota-meta">
+          <span>Criada: {{ formatDate(nota.criadoEm) }}</span>
+        </div>
+
+        <ul class="nota-itens">
+          <li *ngFor="let item of nota.itens">
+            <span>{{ item.produto?.codigo ?? 'Produto' }} - {{ item.quantidade }} und.</span>
+          </li>
+        </ul>
+
+        <button
+          type="button"
+          class="primary small"
+          [disabled]="nota.status === 'Fechada' || isPrintingIds.includes(nota.id ?? 0)"
+          (click)="imprimirNota(nota)">
+          {{ isPrintingIds.includes(nota.id ?? 0) ? 'Imprimindo...' : (nota.status === 'Fechada' ? 'Nota fechada' : 'Imprimir nota') }}
+        </button>
+      </article>
+    </div>
+  </div>
+</section>

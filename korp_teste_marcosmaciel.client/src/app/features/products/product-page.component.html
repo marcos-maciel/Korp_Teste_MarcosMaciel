@@ -1,0 +1,55 @@
+<section class="product-shell">
+  <div class="panel panel-form">
+    <h2>Novo produto</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="field">
+        <label for="codigo">Código</label>
+        <input id="codigo" type="text" formControlName="codigo" placeholder="Ex.: P-100" />
+      </div>
+
+      <div class="field">
+        <label for="descricao">Descrição</label>
+        <input id="descricao" type="text" formControlName="descricao" placeholder="Descrição do produto" />
+      </div>
+
+      <div class="field">
+        <label for="saldo">Saldo</label>
+        <input id="saldo" type="number" min="0" formControlName="saldo" />
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+      <button type="submit" class="primary" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Salvando...' : 'Salvar produto' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="panel panel-list">
+    <div class="section-header">
+      <h2>Produtos cadastrados</h2>
+    </div>
+
+    <div *ngIf="isLoading" class="state">Carregando produtos...</div>
+    <div *ngIf="!isLoading && products.length === 0" class="state empty">Nenhum produto cadastrado.</div>
+
+    <table *ngIf="!isLoading && products.length > 0" class="product-table">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Descrição</th>
+          <th>Saldo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.codigo }}</td>
+          <td>{{ product.descricao }}</td>
+          <td>{{ product.saldo }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

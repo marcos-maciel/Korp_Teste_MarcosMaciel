@@ -1,0 +1,130 @@
+Detalhamento técnico
+
+1) Ciclos de vida do Angular utilizados
+
+No projeto, o ciclo de vida mais utilizado foi OnInit.
+
+Esse hook foi empregado para carregar os dados iniciais das páginas assim que o componente é iniciado. Exemplos:
+- product-page.component.ts
+- nota-fiscal-page.component.ts
+
+O padrão adotado foi:
+- constructor(): injeção de dependências e inicialização simples
+- ngOnInit(): carregamento de listas, formulário e dados iniciais da tela
+
+Além disso, foi utilizado ChangeDetectorRef para forçar a atualização visual após ações como:
+- salvar produto
+- salvar nota fiscal
+- imprimir nota fiscal
+- recarregar listagens
+
+Isso foi importante para evitar a necessidade de refresh manual da página após a operação, melhorando a experiência do usuário.
+
+2) Uso de RxJS
+
+Sim, foi utilizado RxJS no frontend.
+
+A aplicação expõe Observable nos serviços e os componentes fazem subscribe para tratar respostas assíncronas da API.
+
+Exemplos de fluxo:
+- productService.getAll().subscribe({ next, error })
+- productService.create(payload).subscribe({ next, error })
+- notaFiscalService.create(payload).subscribe({ next, error })
+- notaFiscalService.imprimir(notaFiscal.id).subscribe({ next, error })
+
+O RxJS foi utilizado para modelar a comunicação assíncrona com o backend, com tratamento de sucesso e erro por meio de next/error.
+
+3) Outras bibliotecas utilizadas e finalidade
+
+Frontend:
+- Angular 22: framework principal para a aplicação web
+- RxJS: programação reativa e tratamento de chamadas assíncronas
+- TypeScript: tipagem estática e estrutura do frontend
+- Angular Forms: gerenciamento e validação de formulários
+- Angular Router: navegação entre as páginas
+- Angular Common: diretivas e recursos fundamentais da UI
+- run-script-os: suporte para scripts de ambiente Windows/Linux
+- tslib: suporte ao TypeScript
+- Prettier: padronização de código
+- Vitest e jsdom: execução de testes e ambiente de testes do frontend
+
+Backend:
+- ASP.NET Core 8: framework principal da API e dos microsserviços
+- Entity Framework Core: ORM para acesso ao banco de dados
+- SQL Server LocalDB: banco de dados utilizado no ambiente Windows
+- Swagger/Swashbuckle: documentação da API
+- CORS: habilitar comunicação com o frontend
+
+4) Bibliotecas para componentes visuais
+
+Não foi utilizada uma biblioteca visual como Bootstrap, Angular Material, PrimeNG, Tailwind ou NG-ZORRO.
+
+A interface foi construída com:
+- HTML
+- CSS customizado
+- componentes Angular nativos
+- estilos próprios por tela e por componente
+
+As telas foram montadas com CSS próprio, sem framework de UI visual.
+
+5) Gerenciamento de dependências no Golang
+
+Não se aplica, porque não foi utilizado Go no projeto.
+
+A solução foi desenvolvida em:
+- Angular para o frontend
+- C# / ASP.NET Core para o backend
+- ASP.NET Core para os microsserviços
+
+6) Frameworks utilizados em Golang ou C#
+
+No C# / .NET:
+- ASP.NET Core 8
+- Entity Framework Core
+- ASP.NET Core MVC / Controllers
+- HttpClient
+- Swagger
+- CORS
+
+Nos microsserviços:
+- ASP.NET Core 8 como base de cada serviço
+- comunicação HTTP entre os serviços e o backend principal
+
+7) Tratamento de erros e exceções no backend
+
+O tratamento foi centralizado com middleware global de exceções.
+
+Em Program.cs, foi configurado o UseExceptionHandler, que captura erro não tratado e transforma em resposta HTTP consistente.
+
+As exceções principais foram:
+- DomainException -> 409 Conflict
+- NotFoundException -> 404 Not Found
+- InvalidOperationException -> 400 Bad Request
+- ArgumentException -> 400 Bad Request
+- UnauthorizedAccessException -> 401 Unauthorized
+- TimeoutException -> 503 Service Unavailable
+- HttpRequestException -> 503 Service Unavailable
+- qualquer outra exceção -> 500 Internal Server Error
+
+Além disso, o backend retorna objetos padronizados de erro, como ApiErrorResponse, com:
+- Message
+- Details
+- TimestampUtc
+
+Esse padrão foi usado para garantir que a aplicação devolva mensagens amigáveis ao frontend e/ou ao usuário final.
+
+8) Uso de LINQ no C#
+
+Sim, o projeto utiliza LINQ, principalmente em consultas com Entity Framework Core.
+
+Exemplos do uso:
+- Include(x => x.Itens) para carregar os itens de uma nota fiscal
+- FirstOrDefaultAsync(x => x.Id == notaFiscalId) para localizar uma nota por ID
+- comparações com string.Equals
+- consultas e filtros sobre entidades do banco
+
+O LINQ foi usado em conjunto com EF Core para consultar, filtrar e materializar dados de forma segura e legível, mantendo a lógica de negócio encapsulada no backend.
+
+Conclusão
+
+A aplicação foi desenvolvida com uma arquitetura moderna, aproveitando Angular para o frontend, ASP.NET Core para a API e microsserviços independentes para estoque e faturamento. O código usa RxJS e Angular lifecycle hooks para controlar a experiência do usuário, enquanto o backend trata erros de forma centralizada e usa LINQ/EF Core para persistência e consultas de forma organizada.

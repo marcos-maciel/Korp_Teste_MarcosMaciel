@@ -3,5 +3,8 @@
     <Build />
     <Deploy />
   </Project>
+  <Project Path="Korp_Teste_MarcosMaciel.Shared/Korp_Teste_MarcosMaciel.Shared.csproj" />
+  <Project Path="Korp_Teste_MarcosMaciel.InventoryService/Korp_Teste_MarcosMaciel.InventoryService.csproj" />
+  <Project Path="Korp_Teste_MarcosMaciel.BillingService/Korp_Teste_MarcosMaciel.BillingService.csproj" />
   <Project Path="Korp_Teste_MarcosMaciel.Server/Korp_Teste_MarcosMaciel.Server.csproj" />
 </Solution>

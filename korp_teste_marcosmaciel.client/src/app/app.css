@@ -1,14 +1,101 @@
-﻿:host {
-    max-width: 1280px;
-    padding: 2rem;
-    text-align: center;
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f5f7fb;
+  color: #111827;
 }
 
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+.app-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
 }
 
-table {
-    margin: 0 auto;
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f172a;
+  color: #fff;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+}
+
+.brand {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav a {
+  color: #dbeafe;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+}
+
+.nav a.active,
+.nav a:hover {
+  background: rgba(147, 197, 253, 0.15);
+  color: #fff;
+}
+
+.page-content {
+  padding-top: 1.5rem;
+}
+
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: min(360px, calc(100vw - 2rem));
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  font-weight: 600;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.16);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.toast-success {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.toast-error {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+.toast-info {
+  background: #dbeafe;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.toast-close {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
 }

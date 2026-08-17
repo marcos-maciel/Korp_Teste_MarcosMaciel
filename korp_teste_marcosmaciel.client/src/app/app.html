@@ -1,24 +1,15 @@
-﻿<h1 id="tableLabel">Weather forecast</h1>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">Korp Teste</div>
+    <nav class="nav">
+      <a routerLink="/products" routerLinkActive="active">Produtos</a>
+      <a routerLink="/notas-fiscais" routerLinkActive="active">Notas fiscais</a>
+    </nav>
+  </header>
 
-<p>This component demonstrates fetching data from the server.</p>
+  <app-toast-container></app-toast-container>
 
-<p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
-
-<table *ngIf="forecasts">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let forecast of forecasts">
-            <td>{{ forecast.date }}</td>
-            <td>{{ forecast.temperatureC }}</td>
-            <td>{{ forecast.temperatureF }}</td>
-            <td>{{ forecast.summary }}</td>
-        </tr>
-    </tbody>
-</table>
+  <main class="page-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
