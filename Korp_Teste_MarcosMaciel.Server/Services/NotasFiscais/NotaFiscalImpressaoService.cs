@@ -56,11 +56,25 @@ public class NotaFiscalImpressaoService
                 throw new DomainException("Cada item da nota fiscal deve ter quantidade maior que zero.");
             }
 
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == item.ProdutoId);
+            if (product is null)
+            {
+                throw new NotFoundException($"Produto com id {item.ProdutoId} não encontrado no banco principal.");
+            }
+
             var canReserve = await _inventoryClient.ReserveStockAsync(item.ProdutoId, item.Quantidade);
             if (!canReserve)
             {
                 throw new DomainException($"Produto com id {item.ProdutoId} sem saldo suficiente para a quantidade informada.");
             }
+
+            if (product.Saldo < item.Quantidade)
+            {
+                throw new DomainException($"Saldo insuficiente para o produto '{product.Descricao}'. Disponível: {product.Saldo}, solicitado: {item.Quantidade}.");
+            }
+
+            product.Saldo -= item.Quantidade;
+            product.AtualizadoEm = DateTime.UtcNow;
         }
 
         notaFiscal.Status = "Fechada";
